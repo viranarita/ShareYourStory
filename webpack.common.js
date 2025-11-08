@@ -4,13 +4,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    // Ini sudah benar, ini adalah titik masuk utama aplikasi kamu
     app: path.resolve(__dirname, 'src/scripts/index.js'), 
   },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true, // Ini sudah bagus, otomatis membersihkan folder dist
+    clean: true,
   },
   module: {
     rules: [
