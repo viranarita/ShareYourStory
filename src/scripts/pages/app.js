@@ -236,7 +236,7 @@ async function swRegister() {
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('./service-worker.js');
+    const registration = await navigator.serviceWorker.register('/ShareYourStory-PWA/service-worker.js'); 
     console.log('Service worker registration succeeded:', registration);
 
     initNotificationToggleButton();
