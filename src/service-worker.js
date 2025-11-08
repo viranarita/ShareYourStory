@@ -49,52 +49,52 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    const requestUrl = event.request.url;
-  
-    if (requestUrl.startsWith('https://story-api.dicoding.dev/')) {
-      
-      if (event.request.method !== 'GET') {
-        event.respondWith(fetch(event.request));
-        return;
-      }
-  
-      event.respondWith(
-        caches.open(DYNAMIC_CACHE).then(async (cache) => {
-          try {
-            const networkResponse = await fetch(event.request);
-            
-            if (networkResponse.ok || networkResponse.type === 'opaque') {
-                cache.put(event.request, networkResponse.clone());
-              }
-            
-            return networkResponse;
-  
-          } catch (error) {
-            console.log('[SW] Network fetch failed, trying cache...');
-            
-            const cacheResponse = await cache.match(event.request);
-            if (cacheResponse) {
-              console.log('[SW] Serving from DYNAMIC_CACHE');
-              return cacheResponse;
-            }
-            
-            console.warn('[SW] No response found in cache or network for API.');
-            return new Response(JSON.stringify({ message: 'Offline: Tidak dapat mengambil data baru.' }), {
-              headers: { 'Content-Type': 'application/json' },
-              status: 503
-            });
-          }
-        })
-      );
+  const requestUrl = event.request.url;
+
+  if (requestUrl.startsWith('https://story-api.dicoding.dev/')) {
+    
+    if (event.request.method !== 'GET') {
+      event.respondWith(fetch(event.request));
       return;
     }
-  
+
     event.respondWith(
-        caches.match(event.request).then((cacheResponse) => {
-        return cacheResponse || fetch(event.request);
-            })
-        );
-    });
+      caches.open(DYNAMIC_CACHE).then(async (cache) => {
+        try {
+          const networkResponse = await fetch(event.request);
+          
+          if (networkResponse.ok || networkResponse.type === 'opaque') {
+            cache.put(event.request, networkResponse.clone());
+          }
+          
+          return networkResponse;
+
+        } catch (error) {
+          console.log('[SW] Network fetch failed, trying cache...');
+
+          const cacheResponse = await cache.match(event.request);
+          if (cacheResponse) {
+            console.log('[SW] Serving from DYNAMIC_CACHE');
+            return cacheResponse;
+          }
+          
+          console.warn('[SW] No response found in cache or network for API.');
+          return new Response(JSON.stringify({ message: 'Offline: Tidak dapat mengambil data baru.' }), {
+            headers: { 'Content-Type': 'application/json' },
+            status: 503
+          });
+        }
+      })
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((cacheResponse) => {
+      return cacheResponse || fetch(event.request);
+    })
+  );
+});
 
 self.addEventListener('push', (event) => {
   console.log('[SW] Push Notification diterima!');

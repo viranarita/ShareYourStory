@@ -6,6 +6,7 @@ import HomePagePresenter from '../presenters/home-page-presenter';
 import * as ApiSource from '../data/api';
 import { addNewStory } from '../data/api';
 import IdbHelper from '../utils/idb-helper';
+import CONFIG from '../config';
 
 class App {
   #content = null;
@@ -118,7 +119,7 @@ class App {
   }
 }
 
-const VAPID_PUBLIC_KEY = 'BC7BY5Cs7SDe_4LGAAWeYyQA1Piu84JKAkYzAV2bG7egw_a6uMWHWqXxGkDxzovLJNXlaegzWoH6ohtnfTFvRsI';
+const VAPID_PUBLIC_KEY = 'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx8biyPi_E-1fSGABK_Qs_GlvPoJJqxbk';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -135,55 +136,80 @@ async function initNotificationToggleButton() {
   const toggleButton = document.getElementById('notification-toggle-button');
   if (!toggleButton) return;
   if (!AuthHelper.isAuthenticated()) {
-    toggleButton.style.display = 'none'; // Sembunyikan tombol jika belum login
+    toggleButton.style.display = 'none';
     return;
   }
 
   const registration = await navigator.serviceWorker.ready;
   const existingSubscription = await registration.pushManager.getSubscription();
 
-  // Atur Teks dan Class saat halaman dimuat
   if (existingSubscription) {
     toggleButton.textContent = 'Disable Notifications';
     toggleButton.classList.add('state-disable');
-    toggleButton.classList.remove('state-enable');
   } else {
     toggleButton.textContent = 'Enable Notifications';
     toggleButton.classList.add('state-enable');
-    toggleButton.classList.remove('state-disable');
   }
   toggleButton.style.display = 'block';
 
   toggleButton.addEventListener('click', async () => {
-    // Cek berdasarkan class, bukan teks (lebih aman)
     if (toggleButton.classList.contains('state-enable')) {
-      
-      // 1. Minta izin DULU saat tombol diklik
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
-        console.warn('Notification permission denied.');
         alert('Anda harus mengizinkan notifikasi untuk mengaktifkannya.');
         return;
       }
 
-      // 2. Baru lakukan subscribe jika izin diberikan
       try {
         const subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
         });
-        console.log('Subscribed!', subscription);
+
+        const subscriptionData = subscription.toJSON();
+        delete subscriptionData.expirationTime;
+
+        const response = await fetch(`${CONFIG.BASE_URL}/notifications/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${AuthHelper.getAuthToken()}`,
+          },
+          body: JSON.stringify(subscriptionData),
+        });
+
+        if (!response.ok) {
+          const responseData = await response.json();
+          throw new Error(responseData.message || 'Failed to send subscription to server.');
+        }
         
+        console.log('Subscription sent to server.');
+
         toggleButton.textContent = 'Disable Notifications';
         toggleButton.classList.add('state-disable');
         toggleButton.classList.remove('state-enable');
       } catch (err) {
-        console.error('Failed to subscribe:', err);
+        console.error('Failed to subscribe or send subscription:', err);
+        alert(`Gagal subscribe: ${err.message}`);
       }
     } else {
       try {
-        await existingSubscription.unsubscribe();
-        console.log('Unsubscribed!');
+        const subscription = await registration.pushManager.getSubscription();
+        if (subscription) {
+          await fetch(`${CONFIG.BASE_URL}/notifications/subscribe`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${AuthHelper.getAuthToken()}`,
+            },
+            body: JSON.stringify({ endpoint: subscription.endpoint }), 
+          });
+
+          await subscription.unsubscribe();
+          
+          console.log('Unsubscribed and subscription removed from server.');
+        }
+        
         toggleButton.textContent = 'Enable Notifications';
         toggleButton.classList.add('state-enable');
         toggleButton.classList.remove('state-disable');

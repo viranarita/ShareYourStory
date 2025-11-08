@@ -14,6 +14,10 @@ const AuthHelper = {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_NAME_KEY);
   },
+
+  getAuthToken: () => {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+  },
 };
 
 export default AuthHelper;

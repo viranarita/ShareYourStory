@@ -4,7 +4,7 @@ export default class RegisterPage {
   async render() {
     return `
       <section class="container form-page-container">
-        <h2>Register</h2>
+        <h1>Register</h1>
         <form id="register-form" class="register-form" novalidate>
           
           <div class="form-group">

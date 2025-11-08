@@ -31,7 +31,9 @@ export default class AddStoryPage {
           <div class="form-group">
             <label for="map-add">Pilih Lokasi di Peta:</label>
             <div id="map-add"></div>
+            <label for="latitude" class="visually-hidden">Latitude</label>
             <input type="hidden" id="latitude" name="lat">
+            <label for="longitude" class="visually-hidden">Longitude</label>
             <input type="hidden" id="longitude" name="lon">
           </div>
           <button type="submit" id="submit-button" class="submit-button">Bagikan Cerita</button>

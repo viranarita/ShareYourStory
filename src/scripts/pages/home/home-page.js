@@ -34,7 +34,7 @@ class HomePage {
     const contentWrapper = document.querySelector('#home-page-content');
     contentWrapper.innerHTML = `
       <div class="guest-view-prompt-fullwidth text-center">
-          <h2>👋 Selamat Datang!</h2>
+          <h1>👋 Selamat Datang!</h1>
           <p>${message}</p>
           <a href="#/login" class="login-prompt-button">Login Sekarang</a>
       </div>
@@ -48,6 +48,8 @@ class HomePage {
       <div class="container">
         <h1>Jelajahi Cerita Pengguna</h1>
         <div id="map"></div>
+
+        <h2>Daftar Cerita</h2>
         <div id="story-list" class="story-list"></div>
       </div>
     `;

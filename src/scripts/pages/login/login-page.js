@@ -4,7 +4,7 @@ export default class LoginPage {
   async render() {
     return `
       <section class="container form-page-container">
-        <h2>Login</h2>
+        <h1>Login</h1>
         <form id="login-form" class="login-form" novalidate>
           <div class="form-group">
             <label for="email">Email</label>
