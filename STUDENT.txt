@@ -4,4 +4,4 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { ... });
 URL untuk peta satelit:
 L.tileLayer('https://server.arcgisonline.com/.../tile/{z}/{y}/{x}', { ... });
 
-URL deploy: https://viranarita.github.io/ShareYourStory-PWA/
+URL deploy: https://viranarita.github.io/ShareYourStory/

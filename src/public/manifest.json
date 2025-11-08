@@ -2,25 +2,25 @@
     "name": "Share Your Story App",
     "short_name": "Share Your Story",
     "description": "Aplikasi PWA untuk berbagi cerita.",
-    "start_url": "/ShareYourStory-PWA/",
+    "start_url": "/ShareYourStory/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#343a40",
     "icons": [
       {
-        "src": "/ShareYourStory-PWA/images/icon-192x192.png",
+        "src": "/ShareYourStory/images/icon-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/ShareYourStory-PWA/images/icon-512x512.png",
+        "src": "/ShareYourStory/images/icon-512x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/ShareYourStory-PWA/images/icon-maskable.png",
+        "src": "/ShareYourStory/images/icon-maskable.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "maskable"
@@ -28,13 +28,13 @@
     ],
     "screenshots": [
       {
-        "src": "/ShareYourStory-PWA/images/screenshot-mobile.png",
+        "src": "/ShareYourStory/images/screenshot-mobile.png",
         "sizes": "360x740",
         "type": "image/png",
         "form_factor": "narrow"
       },
       {
-        "src": "/ShareYourStory-PWA/images/screenshot-desktop.png",
+        "src": "/ShareYourStory/images/screenshot-desktop.png",
         "sizes": "1280x720",
         "type": "image/png",
         "form_factor": "wide"

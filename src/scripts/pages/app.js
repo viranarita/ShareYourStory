@@ -187,7 +187,7 @@ async function initNotificationToggleButton() {
 
         registration.showNotification('Notifikasi Diaktifkan!', {
           body: 'Kamu sekarang akan menerima notifikasi dari Berbagi Cerita.',
-          icon: '/ShareYourStory-PWA/images/icon-192x192.png'
+          icon: '/ShareYourStory/images/icon-192x192.png'
         });
 
         toggleButton.textContent = 'Disable Notifications';
@@ -216,7 +216,7 @@ async function initNotificationToggleButton() {
 
           registration.showNotification('Notifikasi Dimatikan', {
             body: 'Kamu tidak akan lagi menerima notifikasi.',
-            icon: '/ShareYourStory-PWA/images/icon-192x192.png'
+            icon: '/ShareYourStory/images/icon-192x192.png'
           });
         }
         
@@ -247,9 +247,9 @@ async function swRegister() {
 
   try {
     const registration = await navigator.serviceWorker.register(
-      '/ShareYourStory-PWA/service-worker.js',
+      '/ShareYourStory/service-worker.js',
       {
-        scope: '/ShareYourStory-PWA/' // <-- INI KUNCI UTAMANYA
+        scope: '/ShareYourStory/'
       }
     );
     console.log('Service worker registration succeeded:', registration);

@@ -2,7 +2,7 @@
   "name": "app-starter-project-with-webpack",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://viranarita.github.io/ShareYourStory-PWA",
+  "homepage": "https://viranarita.github.io/ShareYourStory",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "start-dev": "webpack serve --config webpack.dev.js",
