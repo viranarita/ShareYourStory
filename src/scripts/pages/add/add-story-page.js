@@ -81,8 +81,14 @@ export default class AddStoryPage {
       const lat = document.querySelector('#latitude').value;
       const lon = document.querySelector('#longitude').value;
 
-      if (!description || !photo) {
-        this._showFeedback('Deskripsi dan gambar harus diisi.', 'error');
+      if (!description || !photo || !lat || !lon) {
+        if (!description) {
+          this._showFeedback('Deskripsi harus diisi.', 'error');
+        } else if (!photo) {
+          this._showFeedback('Gambar harus di-upload.', 'error');
+        } else if (!lat || !lon) {
+          this._showFeedback('Anda harus memilih lokasi di peta.', 'error');
+        }
         return;
       }
       
